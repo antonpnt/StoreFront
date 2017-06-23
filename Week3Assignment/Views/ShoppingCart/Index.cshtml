@@ -1,0 +1,128 @@
+﻿@model IEnumerable<Week3Assignment.Models.ShoppingCartProduct>
+@using Week3Assignment.CustomHtmlHelper;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+    double total = 0;
+}
+<script src="~/Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js" type="text/javascript"></script>
+
+<h2>@HttpContext.Current.User.Identity.Name's Shopping Cart</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Product.ProductName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Product.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Product.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Quantity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Product.ImageFile)
+        </th>
+        <th>
+            Subtotal
+        </th>
+        <th></th>
+    </tr>
+    @if (Model.Count() == 0)
+    {
+        <tr>
+            <td colspan="4">There are no items in your shopping cart</td>
+        </tr>
+    }
+    else
+    {
+        foreach (var item in Model)
+        {
+            <tr id="RowItem-@item.ShoppingCartProductID">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Product.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Product.Description)
+                </td>
+                <td>
+                    $@Html.DisplayFor(modelItem => item.Product.Price)
+                </td>
+                <td>
+                    
+                    @Html.TextBox("Quantity" + item.ProductID, item.Quantity)
+                    <button type="button" onclick="Update(@item.ProductID, @item.Quantity)">Update</button>
+
+                </td>
+                <td>
+                    @Html.Image(item.Product.ImageFile)
+                </td>
+                <td>
+                    @{
+                        var price = Convert.ToDouble(item.Product.Price);
+                        var quant = Convert.ToDouble(item.Quantity);
+                        var subtotal = price * quant;
+                        total += subtotal;
+                    }
+                    $@String.Format("{0:n2}", subtotal)
+                </td>
+                <td>
+                    <button type="submit" value="Remove" onclick="Remove(@item.ShoppingCartProductID)">
+                        <span class="glyphicon glyphicon-remove">Remove from cart</span>
+                    </button>
+
+                </td>
+            </tr>
+            <tr></tr>
+
+                            }
+                        }
+</table>
+                        
+<h2 id="CartTotal">Total: $@String.Format("{0:n2}", total)</h2>
+@section scripts{
+    <script>
+    function Remove(id) {
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("RemoveFromCart", "ShoppingCart")",
+            data: {prodID: id},
+            success: function (data) {
+                $('#RowItem-' + data.prodID).fadeOut();
+                $('#CartTotal').html("Total: $" + (data.total).toFixed(2));
+            }
+        });
+        }
+
+        function Update(id, quant) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("UpdateCart", "ShoppingCart")",
+                data: { prodID: id, updatedQuantity: quant },
+                success: function (data) {
+                    var ipvalue = $('#Quantity' + data.prodID, data.updatedQuantity).val();
+                    if (data.updatedQuantity < 1) {
+                        alert("Please enter a quantity greater than 0");
+                    }
+                    else {
+                        alert("Helloooooooo")
+                        $(ipvalue).html(data.updatedQuantity);
+
+                    }
+                }
+            });
+        }
+
+    </script>
+}
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bunles/js")
+

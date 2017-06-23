@@ -2,11 +2,11 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <h2>Customers Admin</h2>
     <h3 style="text-decoration: underline"><em>List of customers</em></h3>
-    <asp:GridView ID="GridView1" runat="server" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False" DataKeyNames="UserID" DataSourceID="SqlDataSource1" EmptyDataText="There are no data records to display." CellPadding="4" ForeColor="#333333" GridLines="None" BorderStyle="Solid">
+    <asp:GridView ID="GridView1" runat="server" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False" DataKeyNames="UserID" DataSourceID="SqlDataSource1" EmptyDataText="There are no data records to display." CellPadding="50" CellSpacing="5" ForeColor="#333333" GridLines="None" OnSelectedIndexChanged="GridView1_SelectedIndexChanged">
                     <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
                     <Columns>
-                        <asp:HyperLinkField DataNavigateUrlFields="UserID" DataNavigateUrlFormatString="CustomerAdminDetails.aspx?UserID={0}" Text="Edit" />
-                        <asp:BoundField DataField="UserID" HeaderText="User ID" SortExpression="UserID" />
+                        <asp:HyperLinkField DataNavigateUrlFields="UserID" DataNavigateUrlFormatString="CustomerAdminDetails.aspx?UserID={0}" Text="Edit &nbsp;" />
+                        <asp:BoundField DataField="UserID" HeaderText="User ID&nbsp;" SortExpression="UserID" />
                         <asp:BoundField DataField="UserName" HeaderText="Username" SortExpression="UserName" />
                         <asp:BoundField DataField="EmailAddress" HeaderText="Email Address" SortExpression="EmailAddress" />
                     </Columns>

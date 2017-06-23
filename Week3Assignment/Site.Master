@@ -6,7 +6,7 @@
 <head runat="server">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%: Page.Title %> - Week 3 Assignment</title>
+    <title><%: Page.Title %> - Music Store</title>
 
     <asp:PlaceHolder runat="server">
         <%: Scripts.Render("~/bundles/modernizr") %>
@@ -47,13 +47,17 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" runat="server" href="~/">Store Application</a>
+                    <a class="navbar-brand" runat="server" href="~/Default">Music Store</a>
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a runat="server" href="~/">Home</a></li>
+                        <li><a runat="server" href="~/Default">Home</a></li>
                         <li><a runat="server" href="~/About">About</a></li>
                         <li><a runat="server" href="~/Contact">Contact</a></li>
+                    </ul>
+                    <ul class ="nav navbar-nav navbar-right">
+                        <li><asp:HyperLink ID="hypRegister" runat="server" NavigateUrl="<%$RouteUrl:routename=default,controller=user,action=registration%>">Register</asp:HyperLink></li>
+                        <li><asp:HyperLink ID="hypLogin" runat="server" NavigateUrl="<%$RouteUrl:routename=default,controller=user,action=login%>">Login</asp:HyperLink></li>
                     </ul>
                 </div>
             </div>
@@ -63,7 +67,8 @@
             </asp:ContentPlaceHolder>
             <hr />
             <footer>
-                <p>&copy; <%: DateTime.Now.Year %> - My ASP.NET Application</p>
+                <p>&copy; <%: DateTime.Now.Year %> - Music Store
+                </p>
             </footer>
         </div>
 

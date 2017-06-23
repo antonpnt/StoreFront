@@ -23,5 +23,10 @@ namespace Week3Assignment
         {
 
         }
+
+        protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
