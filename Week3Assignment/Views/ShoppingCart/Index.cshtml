@@ -54,15 +54,14 @@
                     $@Html.DisplayFor(modelItem => item.Product.Price)
                 </td>
                 <td>
-                    
-                    @Html.TextBox("Quantity" + item.ProductID, item.Quantity)
-                    <button type="button" onclick="Update(@item.ProductID, @item.Quantity)">Update</button>
+                    @Html.TextBox("Quantity" + item.ShoppingCartProductID, item.Quantity)
+                    <button type="submit" onclick="Update(@item.ShoppingCartProductID)">Update</button>
 
                 </td>
                 <td>
                     @Html.Image(item.Product.ImageFile)
                 </td>
-                <td>
+                <td id="Subtotal-@item.ShoppingCartProductID">
                     @{
                         var price = Convert.ToDouble(item.Product.Price);
                         var quant = Convert.ToDouble(item.Quantity);
@@ -99,19 +98,20 @@
         });
         }
 
-        function Update(id, quant) {
+        function Update(id) {
+            var newQuant = $("#Quantity" + id).val();
             $.ajax({
                 type: "POST",
                 url: "@Url.Action("UpdateCart", "ShoppingCart")",
-                data: { prodID: id, updatedQuantity: quant },
+                data: { prodID: id, updatedQuantity: newQuant },
                 success: function (data) {
-                    var ipvalue = $('#Quantity' + data.prodID, data.updatedQuantity).val();
                     if (data.updatedQuantity < 1) {
                         alert("Please enter a quantity greater than 0");
                     }
                     else {
-                        alert("Helloooooooo")
-                        $(ipvalue).html(data.updatedQuantity);
+                        $(newQuant).html(data.updatedQuantity);
+                        $('#Subtotal-' + data.prodID).html("$" + (data.subtotal).toFixed(2));
+                        $('#CartTotal').html("Total: $" + (data.total).toFixed(2));
 
                     }
                 }

@@ -50,7 +50,7 @@ namespace Week3Assignment.Controllers
                 if (doesExist)
                 {
                     var cartItem = db.ShoppingCartProducts.Where(a => a.ShoppingCartID == shoppingCartID).Where(a => a.ProductID == prod.ProductID).FirstOrDefault();
-                    cartItem.Quantity += 1;
+                    cartItem.Quantity++;
                     db.SaveChanges();
                 }
                 //If the item does not already exist, create a new item and add it into the shopping cart and save it to the database
@@ -76,28 +76,35 @@ namespace Week3Assignment.Controllers
             User user = db.Users.Where(a => a.UserName == HttpContext.User.Identity.Name).FirstOrDefault();
             var userID = user.UserID;
             ShoppingCart cart = db.ShoppingCarts.Where(a => a.UserID == userID).FirstOrDefault();
-            var cartItem = db.ShoppingCartProducts.Where(a => a.ShoppingCartProductID == prodID).FirstOrDefault();
+            ShoppingCartProduct cartItem = db.ShoppingCartProducts.Where(a => a.ShoppingCartProductID == prodID).FirstOrDefault();
             db.ShoppingCartProducts.Remove(cartItem);
             db.SaveChanges();
-            decimal? total = db.ShoppingCartProducts.Sum(a => a.Product.Price * a.Quantity) - 15; //fix this
+            var cartList = db.ShoppingCartProducts.Where(a => a.ShoppingCartID == cart.ShoppingCartID).ToList();
+            decimal? total = cartList.Sum(a => a.Product.Price * a.Quantity);
+
 
             return Json(new { prodID, total });
 
         }
 
+        //Updates the quantity of a product in the shopping cart
         [HttpPost]
         public ActionResult UpdateCart(int prodID, int updatedQuantity)
         {
             User user = db.Users.Where(a => a.UserName == HttpContext.User.Identity.Name).FirstOrDefault();
             var userID = user.UserID;
             ShoppingCart cart = db.ShoppingCarts.Where(a => a.UserID == userID).FirstOrDefault();
-            ShoppingCartProduct item = db.ShoppingCartProducts.Where(a => a.ProductID == prodID).FirstOrDefault();
+            ShoppingCartProduct item = db.ShoppingCartProducts.Where(a => a.ShoppingCartProductID == prodID).FirstOrDefault();
 
             item.Quantity = updatedQuantity;
 
             db.SaveChanges();
+            var cartList = db.ShoppingCartProducts.Where(a => a.ShoppingCartID == cart.ShoppingCartID).ToList();
+            decimal? total = cartList.Sum(a => a.Product.Price * a.Quantity);
+            decimal? subtotal = item.Product.Price * item.Quantity;
+            
 
-            return Json( new { prodID, updatedQuantity});
+            return Json( new { prodID, updatedQuantity, total, subtotal});
         }
 
 
@@ -105,7 +112,6 @@ namespace Week3Assignment.Controllers
         [NonAction]
         public bool DoesItemExist(int cartID, int prodID)
         {
-
             var v = db.ShoppingCartProducts.Where(a => a.ShoppingCartID == cartID).Where(a => a.ProductID == prodID).FirstOrDefault();
             return v != null;
 
