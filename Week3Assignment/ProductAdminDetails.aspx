@@ -13,6 +13,8 @@
             <asp:BoundField DataField="Description" HeaderText="Description" SortExpression="Description" />
             <asp:CheckBoxField DataField="IsPublished" HeaderText="Is Published" SortExpression="IsPublished" />
             <asp:BoundField DataField="Price" HeaderText="Price" SortExpression="Price" />
+            <asp:BoundField DataField="ImageFile" HeaderText="Image File" SortExpression="ImageFile" />
+            
             <asp:TemplateField ShowHeader="False">
                 <EditItemTemplate>
                     <asp:LinkButton ID="LinkButton1" runat="server" CausesValidation="True" CommandName="Update" Text="Update"></asp:LinkButton>
@@ -29,6 +31,8 @@
         <PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
         <RowStyle BackColor="#F7F6F3" ForeColor="#333333" />
     </asp:DetailsView>
+        <asp:FileUpload ID="FileUpload1" runat="server" />
+        <asp:Button ID="Button1" runat="server" Text="Upload Image" OnClick="Button1_Click" />
     <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:ecommerceConnectionString %>" DeleteCommand="spDeleteProduct" InsertCommand="spAddProduct" SelectCommand="spGetProduct" UpdateCommand="spUpdateProduct" DeleteCommandType="StoredProcedure" InsertCommandType="StoredProcedure" SelectCommandType="StoredProcedure" UpdateCommandType="StoredProcedure">
         <DeleteParameters>
             <asp:Parameter Name="ProductID" Type="Int32" />
@@ -50,6 +54,11 @@
             <asp:Parameter Name="Price" Type="Decimal" />
         </UpdateParameters>
     </asp:SqlDataSource>
+    </p>
+    <p>
+        <strong>
+        <asp:Label ID="Label1" runat="server"></asp:Label>
+        </strong>
     </p>
     <p><a href="ProductsAdmin.aspx">Back to products</a></p>
 </asp:Content>

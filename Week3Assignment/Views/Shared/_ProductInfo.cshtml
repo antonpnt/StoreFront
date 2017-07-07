@@ -1,0 +1,80 @@
+﻿@model IEnumerable<StoreFront.Data.OrderProduct>
+
+<script src="~/Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js" type="text/javascript"></script>
+
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.ProductID)</th>
+        <th>@Html.DisplayNameFor(model => model.Product.ProductName)</th>
+        <th>@Html.DisplayNameFor(model => model.Quantity)</th>
+        <th>@Html.DisplayNameFor(model => model.Price)</th>
+    </tr>
+    @foreach (var item in Model)
+            {
+        <tr id="RowItem-@item.OrderProductID">
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product.ProductName)
+            </td>
+            <td>
+                @Html.TextBox("Quantity" + item.OrderProductID, item.Quantity)
+                <button type="submit" onclick="Update(@item.OrderProductID)">Update Quantity</button>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                <button type="submit" value="Remove" onclick="Remove(@item.OrderProductID)">
+                    <span class="glyphicon glyphicon-remove">Remove Item</span>
+                </button>
+
+            </td>
+        </tr>
+    }
+
+
+</table>
+
+@section scripts{
+    <script>
+        function Remove(id) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("RemoveFromOrder", "Order")",
+            data: {prodID: id},
+            success: function (data) {
+                $('#RowItem-' + data.prodID).fadeOut();
+
+            }
+        });
+        }
+
+        function Update(id) {
+            var newQuant = $("#Quantity" + id).val();
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("UpdateOrder", "Order")",
+                data: { prodID: id, updatedQuantity: newQuant },
+                success: function (data) {
+                    if (data.updatedQuantity < 1) {
+                        alert("Please enter a quantity greater than 0");
+                    }
+                    else {
+                        $(newQuant).html(data.updatedQuantity);
+
+
+                    }
+                }
+            });
+        }
+    </script>
+    
+    
+    }
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bunles/js")

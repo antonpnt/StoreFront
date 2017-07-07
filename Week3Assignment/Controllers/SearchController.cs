@@ -8,7 +8,8 @@ namespace Week3Assignment.Controllers
 {
     public class SearchController : Controller
     {
-        private ecommerceEntities db = new ecommerceEntities();
+        //private ecommerceEntities db = new ecommerceEntities();
+        StoreFront.Data.ecommerceEntities db = new StoreFront.Data.ecommerceEntities();
 
         // GET: Search
         public ActionResult Index(string search, int? page)

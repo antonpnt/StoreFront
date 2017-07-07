@@ -1,0 +1,102 @@
+﻿@model StoreFront.Data.Address
+
+@{
+    ViewBag.Title = "Address";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+
+<h2>Step 1- Confirm your Address</h2>
+<p>Please select your existing address, or enter a new one. Press save to go to the next page.</p>
+
+@using(Html.BeginForm("Address", "PlaceOrder", FormMethod.Post))
+{
+    @Html.DropDownList("AddressList1", ViewBag.addressList as SelectList, "--Select Address--")
+
+}
+<br /><br />
+<button type="submit" onclick="showAddForm()">
+    <span>New Address</span>
+</button>
+<br />
+@using (Html.BeginForm("SaveAddress", "PlaceOrder", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+<div id="myDiv" style="display:none">
+    <p>Once you enter your new address, press "Save new Address" and then select the new address from the drop down list.</p>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Address1)
+        </dt>
+        <dd>
+            @Html.TextBoxFor(model => model.Address1)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Address2)
+        </dt>
+        <dd>
+            @Html.TextBoxFor(model => model.Address2)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Address3)
+        </dt>
+        <dd>
+            @Html.TextBoxFor(model => model.Address3)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.City)
+        </dt>
+        <dd>
+            @Html.TextBoxFor(model => model.City)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.State)
+        </dt>
+        <dd>
+            @using (Html.BeginForm("ConfirmOrder", "PlaceOrder", FormMethod.Post))
+            {
+                @Html.DropDownList("StateList1", ViewBag.stateList as SelectList, "--Select State--")
+
+            }
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ZipCode)
+        </dt>
+        <dd>
+            @Html.TextBoxFor(model => model.ZipCode)
+        </dd>
+        </dl>
+    <button class="btn-info btn-sm" type="submit">
+        <span >Save New Address</span>
+    </button>
+</div>
+}
+<button id="buttonright" type="submit" onclick="location.href='@Url.Action("PlaceOrder", "PlaceOrder")'">
+    <span>Save</span>
+</button>
+
+
+@section scripts{
+<script>
+    function showAddForm() {
+        var x = document.getElementById('myDiv');
+        if (x.style.display === 'none') {
+            x.style.display = 'block';
+        }
+        else {
+            x.style.display = 'none';
+        }
+    }
+
+    </script>
+
+    
+}
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bunles/js")
+
+
+
+

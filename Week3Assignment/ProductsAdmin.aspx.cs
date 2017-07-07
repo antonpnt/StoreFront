@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -27,6 +28,27 @@ namespace Week3Assignment
         protected void DetailsView1_PageIndexChanging1(object sender, DetailsViewPageEventArgs e)
         {
 
+        }
+
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+            SqlConnection con = new SqlConnection("Data Source=B1VF9W1\\SQLEXPRESS;Initial Catalog=ecommerce;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework");
+            if (FileUpload1.HasFile)
+            {
+                string str = FileUpload1.FileName;
+                FileUpload1.PostedFile.SaveAs(Server.MapPath(".") + "//ProductImages//" + str);
+                string path = "~//ProductImages//" + str.ToString();
+                con.Open();
+                SqlCommand cmd = new SqlCommand("insert into products (ImageFile) values('" + path + "')", con);
+                cmd.ExecuteNonQuery();
+                con.Close();
+                Label1.Text = "Image upload successful";
+
+            }
+            else
+            {
+                Label1.Text = "Please upload an image";
+            }
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using Week3Assignment.Models;
+using StoreFront.Data;
 
 namespace Week3Assignment.Controllers
 {
@@ -26,7 +27,7 @@ namespace Week3Assignment.Controllers
         //Registration POST Action
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Registration([Bind(Exclude = "IsAdmin,DateCreated,CreatedBy,DateModified,ModifiedBy")] User user)
+        public ActionResult Registration([Bind(Exclude = "IsAdmin,DateCreated,CreatedBy,DateModified,ModifiedBy")] StoreFront.Data.User user)
         {
             bool Status = false;
             string message = "";
@@ -45,10 +46,10 @@ namespace Week3Assignment.Controllers
                 user.Password = Crypto.Hash(user.Password);
                 user.ConfirmPassword = Crypto.Hash(user.ConfirmPassword);
 
-                using (ecommerceEntities db = new ecommerceEntities())
+                using (StoreFront.Data.ecommerceEntities db = new StoreFront.Data.ecommerceEntities())
                 {
                     //creates a shoppingcart for every user
-                    ShoppingCart userCart = new ShoppingCart();
+                    StoreFront.Data.ShoppingCart userCart = new StoreFront.Data.ShoppingCart();
                     userCart.UserID = user.UserID;
                     userCart.CreatedBy = user.UserName;
                     userCart.DateCreated = System.DateTime.Today;
@@ -81,7 +82,7 @@ namespace Week3Assignment.Controllers
         public ActionResult Login(UserLogin login, string ReturnUrl)
         {
             string message = "";
-            using (ecommerceEntities db = new ecommerceEntities())
+            using (StoreFront.Data.ecommerceEntities db = new StoreFront.Data.ecommerceEntities())
             {
                 var v = db.Users.Where(a => a.UserName == login.UserName).FirstOrDefault();
                 if (v != null)
@@ -133,7 +134,7 @@ namespace Week3Assignment.Controllers
         [NonAction]
         public bool DoesEmailExist(string emailAddress)
         {
-            using (ecommerceEntities db = new ecommerceEntities())
+            using (StoreFront.Data.ecommerceEntities db = new StoreFront.Data.ecommerceEntities())
             {
                 var v = db.Users.Where(a => a.EmailAddress == emailAddress).FirstOrDefault();
                 return v != null;

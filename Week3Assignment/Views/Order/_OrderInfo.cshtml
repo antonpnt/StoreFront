@@ -1,0 +1,52 @@
+﻿@model StoreFront.Data.Order
+
+<dl class="dl-horizontal">
+    <dt>
+        @Html.DisplayNameFor(model => model.OrderID)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(modelItem => Model.OrderID)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.User.UserName)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(modelItem => Model.User.UserName)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.User.EmailAddress)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(modelItem => Model.User.EmailAddress)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.OrderDate)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(modelItem => Model.OrderDate)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Total)
+    </dt>
+
+    <dd>
+        $@Html.DisplayFor(modelItem => Model.Total)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Status)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(modelItem => Model.Status)
+    </dd>
+
+</dl>

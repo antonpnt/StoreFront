@@ -1,0 +1,53 @@
+﻿@model StoreFront.Data.Order
+
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Address.Address1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(modelItem => Model.Address.Address1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Address.Address2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(modelItem => Model.Address.Address2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Address.Address3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(modelItem => Model.Address.Address3)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Address.City)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(modelItem => Model.Address.City)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Address.State.StateName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(modelItem => Model.Address.State.StateName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Address.ZipCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(modelItem => Model.Address.ZipCode)
+        </dd>
+
+    </dl>

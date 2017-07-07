@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Week3Assignment.Models.ShoppingCartProduct>
+﻿@model IEnumerable<StoreFront.Data.ShoppingCartProduct>
 @using Week3Assignment.CustomHtmlHelper;
 @{
     ViewBag.Title = "Index";
@@ -77,13 +77,17 @@
 
                 </td>
             </tr>
-            <tr></tr>
+            <tr>
+            </tr>
 
                             }
                         }
 </table>
                         
 <h2 id="CartTotal">Total: $@String.Format("{0:n2}", total)</h2>
+<button type="submit" onclick="location.href='@Url.Action("Address", "PlaceOrder")'">
+    <span class="glyphicon glyphicon-credit-card">Place Order</span>
+</button>
 @section scripts{
     <script>
     function Remove(id) {

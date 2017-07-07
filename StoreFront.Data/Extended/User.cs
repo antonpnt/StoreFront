@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 
-namespace Week3Assignment.Models
+namespace StoreFront.Data
 {
     [MetadataType(typeof(UserMetadata))]
     public partial class User

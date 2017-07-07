@@ -1,12 +1,13 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
-using Week3Assignment.Models;
+using StoreFront.Data;
 
 namespace Week3Assignment.Controllers
 {
     public class ShoppingCartController : Controller
     {
-        ecommerceEntities db = new ecommerceEntities();
+        //ecommerceEntities db = new ecommerceEntities();
+        StoreFront.Data.ecommerceEntities db = new StoreFront.Data.ecommerceEntities();
 
         //Shows the cart for the current user
         public ActionResult Index()
@@ -34,7 +35,7 @@ namespace Week3Assignment.Controllers
                 ShoppingCart newCart = new ShoppingCart();
                 newCart.UserID = userID;
                 newCart.CreatedBy = user.UserName;
-                newCart.DateCreated = System.DateTime.Today;
+                newCart.DateCreated = System.DateTime.Now;
 
                 db.ShoppingCarts.Add(newCart);
                 db.SaveChanges();

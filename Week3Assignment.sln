@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+VisualStudioVersion = 15.0.26430.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Week3Assignment", "Week3Assignment\Week3Assignment.csproj", "{ECC70490-695A-48F6-A836-126F2BDC9818}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreFront.Data", "StoreFront.Data\StoreFront.Data.csproj", "{DECA3C5A-FA08-4C7F-90C1-1C5CA0E69580}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{ECC70490-695A-48F6-A836-126F2BDC9818}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ECC70490-695A-48F6-A836-126F2BDC9818}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ECC70490-695A-48F6-A836-126F2BDC9818}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DECA3C5A-FA08-4C7F-90C1-1C5CA0E69580}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DECA3C5A-FA08-4C7F-90C1-1C5CA0E69580}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DECA3C5A-FA08-4C7F-90C1-1C5CA0E69580}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DECA3C5A-FA08-4C7F-90C1-1C5CA0E69580}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

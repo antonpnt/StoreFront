@@ -7,11 +7,12 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Week3Assignment.Models
+namespace StoreFront.Data
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Product
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -22,11 +23,14 @@ namespace Week3Assignment.Models
         }
     
         public int ProductID { get; set; }
+        [Display(Name = "Album Name")]
         public string ProductName { get; set; }
+        [Display(Name = "Artist")]
         public string Description { get; set; }
         public Nullable<bool> IsPublished { get; set; }
         public Nullable<int> Quantity { get; set; }
         public Nullable<decimal> Price { get; set; }
+        [Display(Name = "Album Cover")]
         public string ImageFile { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> DateModified { get; set; }

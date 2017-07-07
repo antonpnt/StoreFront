@@ -63,7 +63,7 @@
                 <asp:BoundField DataField="Description" HeaderText="Description" SortExpression="Description" />
                 <asp:CheckBoxField DataField="IsPublished" HeaderText="Is Published" SortExpression="IsPublished" />
                 <asp:BoundField DataField="Price" HeaderText="Price" SortExpression="Price" />
-                   
+                <asp:BoundField DataField="ImageFile" HeaderText="Image" SortExpression="ImageFile" />
                 <asp:CommandField ShowInsertButton="True" />
             </Fields>
             <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
@@ -72,4 +72,15 @@
             <RowStyle BackColor="#F7F6F3" ForeColor="#333333" />
         </asp:DetailsView>
     </p>
+    <p>
+        <asp:FileUpload ID="FileUpload1" runat="server" />
+        <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Upload Image" />
+    </p>
+    <p>
+        <strong>
+        <asp:Label ID="Label1" runat="server"></asp:Label>
+        </strong>
+    </p>
+    <p>
+        &nbsp;</p>
     </asp:Content>

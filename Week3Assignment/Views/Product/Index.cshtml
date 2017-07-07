@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+@using Week3Assignment.Models
+
+<h2>Index</h2>
+<body>
+
+
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Add to Cart</th>
+    </tr>
+    @foreach(Product p in ViewBag.listProducts)
+    {
+        <tr>
+            <td>@p.ProductID</td>
+            <td>@p.ProductName</td>
+            <td>@p.Price</td>
+            <td>@Html.ActionLink("Add to cart","AddToCart", "ShoppingCart", null, new { id = p.ProductID})</td>
+        </tr>
+
+    }
+
+</table>
+
+</body>
+

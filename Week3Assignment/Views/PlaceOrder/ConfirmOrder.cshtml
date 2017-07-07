@@ -1,0 +1,21 @@
+﻿@model StoreFront.Data.Order
+
+@{
+    ViewBag.Title = "ConfirmOrder";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+
+<h2>Step 2- Confirm your order</h2>
+<p>Please review your order and make sure everything is correct</p>
+
+<h3>Address information</h3>
+
+@Html.Partial("_AddressInfo")
+
+<h3>Order Contents</h3>
+@*@Html.Partial("_ProductInfo")*@
+
+
+<button id="buttonright" type="submit" onclick="location.href='@Url.Action("OrderSubmitted", "PlaceOrder")'">
+    <span>Place Order</span>
+</button>
