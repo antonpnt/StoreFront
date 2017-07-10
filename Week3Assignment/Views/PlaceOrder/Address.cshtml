@@ -8,11 +8,17 @@
 <h2>Step 1- Confirm your Address</h2>
 <p>Please select your existing address, or enter a new one. Press save to go to the next page.</p>
 
-@using(Html.BeginForm("Address", "PlaceOrder", FormMethod.Post))
+@using (Html.BeginForm("GetSelected", "PlaceOrder", FormMethod.Post))
 {
-    @Html.DropDownList("AddressList1", ViewBag.addressList as SelectList, "--Select Address--")
-
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        @Html.DropDownListFor(model => model.AddressID, ViewBag.addressList as IEnumerable<SelectListItem>)
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-default" />
+    </div>
 }
+
 <br /><br />
 <button type="submit" onclick="showAddForm()">
     <span>New Address</span>
@@ -70,9 +76,6 @@
     </button>
 </div>
 }
-<button id="buttonright" type="submit" onclick="location.href='@Url.Action("PlaceOrder", "PlaceOrder")'">
-    <span>Save</span>
-</button>
 
 
 @section scripts{
@@ -86,8 +89,8 @@
             x.style.display = 'none';
         }
     }
-
-    </script>
+</script>
+    
 
     
 }

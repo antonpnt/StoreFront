@@ -13,7 +13,7 @@
 @Html.Partial("_AddressInfo")
 
 <h3>Order Contents</h3>
-@*@Html.Partial("_ProductInfo")*@
+@Html.Partial("_ProductInfo", Model.OrderProducts)
 
 
 <button id="buttonright" type="submit" onclick="location.href='@Url.Action("OrderSubmitted", "PlaceOrder")'">

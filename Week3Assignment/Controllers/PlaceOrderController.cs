@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace Week3Assignment.Controllers
 {
+    [Authorize]
     public class PlaceOrderController : Controller
     {
         StoreFront.Data.ecommerceEntities db = new StoreFront.Data.ecommerceEntities();
@@ -33,14 +34,21 @@ namespace Week3Assignment.Controllers
             return View();
         }
 
-        public ActionResult PlaceOrder()
+        public ActionResult GetSelected ([Bind(Include = "AddressID")]Address selected)
+        {
+            var selectedAdd = selected.AddressID;
+            return RedirectToAction("PlaceOrder", "PlaceOrder", new { id = selectedAdd });
+
+        }
+
+        public ActionResult PlaceOrder(int id)
         {
             User user = db.Users.Where(a => a.UserName == HttpContext.User.Identity.Name).FirstOrDefault();
             var userID = user.UserID;
             var cart = db.ShoppingCarts.Where(a => a.UserID == userID).FirstOrDefault();
             var products = db.ShoppingCartProducts.Where(a => a.ShoppingCartID == cart.ShoppingCartID).ToList();
-            Address address = db.Addresses.Where(a => a.UserID == userID).FirstOrDefault();
-            var addressId = address.AddressID;
+            //Address address = db.Addresses.Where(a => a.UserID == userID).FirstOrDefault();
+            var addressID = id;
             decimal? total = products.Sum(a => a.Product.Price * a.Quantity);
 
             Order newOrder = new Order();
@@ -50,7 +58,7 @@ namespace Week3Assignment.Controllers
             //add status here
             newOrder.DateCreated = System.DateTime.Today;
             newOrder.CreatedBy = user.UserName;
-            newOrder.AddressID = addressId;
+            newOrder.AddressID = id;
             db.Orders.Add(newOrder);
             db.SaveChanges();
 
@@ -62,19 +70,20 @@ namespace Week3Assignment.Controllers
                 orderProd.Quantity = item.Quantity;
                 orderProd.Price = item.Product.Price;
                 orderProd.DateCreated = System.DateTime.Now;
+                orderProd.CreatedBy = user.UserName;
                 db.OrderProducts.Add(orderProd);
                 db.SaveChanges();
             }
-            return RedirectToAction("ConfirmOrder", "PlaceOrder");
+
+            return RedirectToAction("ConfirmOrder", "PlaceOrder", new { addID = id });
 
 
         }
 
-        public ActionResult ConfirmOrder()
+        public ActionResult ConfirmOrder(int addID)
         {
-
-
-            return View();
+            var userAddress = db.Orders.Where(a => a.AddressID == addID).FirstOrDefault();
+            return View(userAddress);
         }
 
         public PartialViewResult Products(Order order)
@@ -86,6 +95,11 @@ namespace Week3Assignment.Controllers
 
         public ActionResult OrderSubmitted()
         {
+            User user = db.Users.Where(a => a.UserName == HttpContext.User.Identity.Name).FirstOrDefault();
+            var userID = user.UserID;
+            ShoppingCart cart = db.ShoppingCarts.Where(a => a.UserID == userID).FirstOrDefault();
+            db.ShoppingCarts.Remove(cart);
+            db.SaveChanges();
             return View();
         }
 
