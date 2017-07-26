@@ -58,11 +58,7 @@
             @Html.DisplayNameFor(model => model.State)
         </dt>
         <dd>
-            @using (Html.BeginForm("ConfirmOrder", "PlaceOrder", FormMethod.Post))
-            {
-                @Html.DropDownList("StateList1", ViewBag.stateList as SelectList, "--Select State--")
-
-            }
+            @Html.DropDownListFor(model => model.State, ViewBag.stateList as IEnumerable<SelectListItem>)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.ZipCode)

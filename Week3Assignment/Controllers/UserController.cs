@@ -4,13 +4,15 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using Week3Assignment.Models;
+using Week3Assignment.ViewModels;
 using StoreFront.Data;
 
 namespace Week3Assignment.Controllers
 {
     public class UserController : Controller
     {
+        ecommerceEntities db = new ecommerceEntities();
+        SqlSecurityManager mgr = new SqlSecurityManager();
         // GET: User
         public ActionResult Index()
         {
@@ -27,7 +29,7 @@ namespace Week3Assignment.Controllers
         //Registration POST Action
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Registration([Bind(Exclude = "IsAdmin,DateCreated,CreatedBy,DateModified,ModifiedBy")] StoreFront.Data.User user)
+        public ActionResult Registration([Bind(Exclude = "IsAdmin,DateCreated,CreatedBy,DateModified,ModifiedBy")] User user)
         {
             bool Status = false;
             string message = "";
@@ -35,30 +37,12 @@ namespace Week3Assignment.Controllers
             //Model Validation
             if (ModelState.IsValid)
             {
-                //Does email already exist
-                var exists = DoesEmailExist(user.EmailAddress);
-                if (exists)
-                {
-                    ModelState.AddModelError("EmailExist", "Email already exists");
-                    return View(user);
-                }
+                mgr.RegisterUser(user);
 
-                user.Password = Crypto.Hash(user.Password);
-                user.ConfirmPassword = Crypto.Hash(user.ConfirmPassword);
-
-                using (StoreFront.Data.ecommerceEntities db = new StoreFront.Data.ecommerceEntities())
-                {
-                    //creates a shoppingcart for every user
-                    StoreFront.Data.ShoppingCart userCart = new StoreFront.Data.ShoppingCart();
-                    userCart.UserID = user.UserID;
-                    userCart.CreatedBy = user.UserName;
-                    userCart.DateCreated = System.DateTime.Today;
-                    db.ShoppingCarts.Add(userCart);
-                    db.Users.Add(user);
-                    db.SaveChanges();
-                    message = "Registration successfully done";
-                    Status = true;
-                }
+                ModelState.Clear();
+                message = "Registration successfully done";
+                Status = true;
+                
             }
             else
             {
@@ -75,52 +59,52 @@ namespace Week3Assignment.Controllers
         public ActionResult Login()
         {
             return View();
+             
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Login(UserLogin login, string ReturnUrl)
         {
-            string message = "";
-            using (StoreFront.Data.ecommerceEntities db = new StoreFront.Data.ecommerceEntities())
+            string username = login.UserName;
+            string password = login.Password;
+
+            var v = mgr.AuthenticateUser(username, password);
+
+            if (v)
             {
-                var v = db.Users.Where(a => a.UserName == login.UserName).FirstOrDefault();
-                if (v != null)
+                int timeout = login.RememberMe ? 525600 : 20;
+                var ticket = new FormsAuthenticationTicket(username, login.RememberMe, timeout);
+                string encrypted = FormsAuthentication.Encrypt(ticket);
+                FormsAuthentication.SetAuthCookie(login.UserName, false);
+
+                var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encrypted);
+                cookie.Expires = DateTime.Now.AddMinutes(timeout);
+                cookie.HttpOnly = true;
+                Response.Cookies.Add(cookie);
+
+                var user = db.Users.Where(a => a.UserName == username).FirstOrDefault();
+                Session["Username"] = user.UserName;
+                Session["UserID"] = user.UserID;
+                if (user.IsAdmin == true)
                 {
-                    if (string.Compare(Crypto.Hash(login.Password), v.Password) == 0)
-                    {
-                        int timeout = login.RememberMe ? 525600 : 20;
-                        var ticket = new FormsAuthenticationTicket(login.UserName, login.RememberMe, timeout);
-                        string encrypted = FormsAuthentication.Encrypt(ticket);
-                        var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encrypted);
-                        cookie.Expires = DateTime.Now.AddMinutes(timeout);
-                        cookie.HttpOnly = true;
-                        Response.Cookies.Add(cookie);
-
-                        if (Url.IsLocalUrl(ReturnUrl))
-                        {
-                            return Redirect(ReturnUrl);
-                        }
-                        else
-                        {
-                            return RedirectToAction("Index", "Home");
-                        }
-                    }
-                    else
-                    {
-                        message = "User name and/or password was incorrect";
-                    }
-
+                    Session["IsAdmin"] = true;
                 }
                 else
                 {
-                    message = "Invalid credential provided";
+                    Session["IsAdmin"] = false;
                 }
+                    return RedirectToAction("Index", "Home");
+                
             }
 
-            ViewBag.message = message;
+            else
+            {
+                ModelState.AddModelError("incorrect","User name and/or password was incorrect");
+            }
             return View();
         }
+
 
 
         [Authorize]
@@ -128,17 +112,16 @@ namespace Week3Assignment.Controllers
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
+            Session.Clear();
             return RedirectToAction("Login", "User");
         }
 
         [NonAction]
         public bool DoesEmailExist(string emailAddress)
         {
-            using (StoreFront.Data.ecommerceEntities db = new StoreFront.Data.ecommerceEntities())
-            {
                 var v = db.Users.Where(a => a.EmailAddress == emailAddress).FirstOrDefault();
                 return v != null;
-            }
+            
         }
     }
 

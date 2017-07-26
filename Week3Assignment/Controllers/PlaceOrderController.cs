@@ -18,6 +18,7 @@ namespace Week3Assignment.Controllers
             return View();
         }
 
+        //Sets up the drop down lists for the user addresses and list of states
         public ActionResult Address()
         {
             User user = db.Users.Where(a => a.UserName == HttpContext.User.Identity.Name).FirstOrDefault();
@@ -34,6 +35,7 @@ namespace Week3Assignment.Controllers
             return View();
         }
 
+        //Gets the address that the user selected
         public ActionResult GetSelected ([Bind(Include = "AddressID")]Address selected)
         {
             var selectedAdd = selected.AddressID;
@@ -41,21 +43,20 @@ namespace Week3Assignment.Controllers
 
         }
 
+        //Makes a new order, and adds the items in the shoppingCartProducts for that user to the orderproducts for that user
         public ActionResult PlaceOrder(int id)
         {
             User user = db.Users.Where(a => a.UserName == HttpContext.User.Identity.Name).FirstOrDefault();
             var userID = user.UserID;
             var cart = db.ShoppingCarts.Where(a => a.UserID == userID).FirstOrDefault();
             var products = db.ShoppingCartProducts.Where(a => a.ShoppingCartID == cart.ShoppingCartID).ToList();
-            //Address address = db.Addresses.Where(a => a.UserID == userID).FirstOrDefault();
-            var addressID = id;
             decimal? total = products.Sum(a => a.Product.Price * a.Quantity);
 
             Order newOrder = new Order();
             newOrder.UserID = userID;
             newOrder.OrderDate = System.DateTime.Now;
             newOrder.Total = total;
-            //add status here
+            newOrder.Status = db.Status.Where(a => a.StatusID == 457).FirstOrDefault();
             newOrder.DateCreated = System.DateTime.Today;
             newOrder.CreatedBy = user.UserName;
             newOrder.AddressID = id;
@@ -64,6 +65,7 @@ namespace Week3Assignment.Controllers
 
             foreach (var item in products)
             {
+                //Creates new order product for each item
                 OrderProduct orderProd = new OrderProduct();
                 orderProd.OrderID = newOrder.OrderID;
                 orderProd.ProductID = item.ProductID;
@@ -80,6 +82,7 @@ namespace Week3Assignment.Controllers
 
         }
 
+        //Displays address information, general information, and product information of the users order
         public ActionResult ConfirmOrder(int addID)
         {
             var userAddress = db.Orders.Where(a => a.AddressID == addID).FirstOrDefault();
@@ -93,17 +96,24 @@ namespace Week3Assignment.Controllers
             return PartialView("~/Views/Shared/_ProductInfo.cshtml", list);
         }
 
+        //Submits the order and then removes the products from the users shopping carts
         public ActionResult OrderSubmitted()
         {
             User user = db.Users.Where(a => a.UserName == HttpContext.User.Identity.Name).FirstOrDefault();
             var userID = user.UserID;
-            ShoppingCart cart = db.ShoppingCarts.Where(a => a.UserID == userID).FirstOrDefault();
-            db.ShoppingCarts.Remove(cart);
+            var cart = db.ShoppingCarts.Where(a => a.UserID == userID).FirstOrDefault();
+            var products = db.ShoppingCartProducts.Where(a => a.ShoppingCartID == cart.ShoppingCartID).ToList();
+
+            foreach(var item in products)
+            {
+                db.ShoppingCartProducts.Remove(item);
+            }
             db.SaveChanges();
+
             return View();
         }
 
-
+        //Form that allows the user to enter a new address
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult SaveAddress(Address address)

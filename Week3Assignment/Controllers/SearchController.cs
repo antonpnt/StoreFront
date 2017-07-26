@@ -1,20 +1,20 @@
 ﻿using System.Data;
 using System.Linq;
 using System.Web.Mvc;
-using Week3Assignment.Models;
 using PagedList;
+using StoreFront.Data;
 
 namespace Week3Assignment.Controllers
 {
+    [Authorize]
     public class SearchController : Controller
     {
-        //private ecommerceEntities db = new ecommerceEntities();
-        StoreFront.Data.ecommerceEntities db = new StoreFront.Data.ecommerceEntities();
+        ecommerceEntities db = new ecommerceEntities();
 
         // GET: Search
         public ActionResult Index(string search, int? page)
         {
-
+            //Takes in user input and returns the product that the user searched for, or the whole list of products if they did not enter anything
             return View(db.Products.Where(x => x.ProductName.StartsWith(search) || search == null).ToList().ToPagedList(page ?? 1,50));
         }
 

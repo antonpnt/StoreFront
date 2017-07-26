@@ -3,6 +3,7 @@ using StoreFront.Data.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using PagedList;
 
 namespace Week3Assignment.Controllers
 {
@@ -11,11 +12,12 @@ namespace Week3Assignment.Controllers
         StoreFront.Data.ecommerceEntities db = new StoreFront.Data.ecommerceEntities();
         // GET: Order
         //Shows the list of orders
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
-            return View(db.Orders.ToList());
+            return View(db.Orders.ToList().ToPagedList(page ?? 1,50));
         }
 
+        //Shows the details of the order corresponding with a certain orderID
         public ActionResult Details(int id)
         {
             var userOrder = db.Orders.Where(a => a.OrderID == id).FirstOrDefault();
@@ -31,7 +33,8 @@ namespace Week3Assignment.Controllers
         }
 
 
-
+        //Removes a product from an order
+        //Does not work
         [HttpPost]
         public ActionResult RemoveFromOrder(int prodID)
         {
@@ -42,6 +45,8 @@ namespace Week3Assignment.Controllers
             return Json(new { prodID });
         }
 
+        //Allows the user to enter a new quantity of a certain product 
+        //Does not work
         [HttpPost]
         public ActionResult UpdateOrder(int prodID, int updatedQuantity)
         {

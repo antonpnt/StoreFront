@@ -27,12 +27,13 @@
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
-                <button type="submit" value="Remove" onclick="Remove(@item.OrderProductID)">
+                <button type="submit" value="Remove" onclick="RemoveFromOrder(@item.OrderProductID)">
                     <span class="glyphicon glyphicon-remove">Remove Item</span>
                 </button>
 
             </td>
         </tr>
+
     }
 
 
@@ -40,16 +41,15 @@
 
 @section scripts{
     <script>
-        function Remove(id) {
+        function RemoveFromOrder(id) {
             $.ajax({
                 type: "POST",
                 url: "@Url.Action("RemoveFromOrder", "Order")",
-            data: {prodID: id},
-            success: function (data) {
-                $('#RowItem-' + data.prodID).fadeOut();
-
-            }
-        });
+                data: { prodID: id },
+                success: function (data) {
+                    $('RowItem-' + data.prodID).fadeOut();
+                }
+            });
         }
 
         function Update(id) {
@@ -64,16 +64,15 @@
                     }
                     else {
                         $(newQuant).html(data.updatedQuantity);
-
-
                     }
                 }
-            });
+
+            })
         }
     </script>
     
-    
     }
+
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/bootstrap")
 @Scripts.Render("~/bundles/jqueryval")

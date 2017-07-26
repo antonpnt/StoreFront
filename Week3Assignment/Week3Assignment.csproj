@@ -67,6 +67,7 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Mvc, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.0\lib\net45\System.Web.Mvc.dll</HintPath>
@@ -162,6 +163,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="About.aspx" />
+    <None Include="Connected Services\ServiceReference1\Service1.disco" />
+    <None Include="Connected Services\ServiceReference1\configuration91.svcinfo" />
+    <None Include="Connected Services\ServiceReference1\configuration.svcinfo" />
+    <None Include="Connected Services\ServiceReference1\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <Content Include="ClientInventoryTest.aspx" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Images\coloringbook.jpg" />
@@ -190,6 +199,17 @@
     <Content Include="Models\MyModel.edmx.diagram">
       <DependentUpon>MyModel.edmx</DependentUpon>
     </Content>
+    <None Include="Connected Services\ServiceReference1\Service1.wsdl" />
+    <None Include="Connected Services\ServiceReference1\Service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference1\Service11.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReference1\Service12.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="Properties\DataSources\StoreFront.Data.Product.datasource" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Images\cashregister.jpg" />
     <Content Include="Images\morelife.jpg" />
@@ -253,6 +273,18 @@
       <DependentUpon>About.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="ClientInventoryTest.aspx.cs">
+      <DependentUpon>ClientInventoryTest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ClientInventoryTest.aspx.designer.cs">
+      <DependentUpon>ClientInventoryTest.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\ServiceReference1\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Contact.aspx.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -335,7 +367,10 @@
     <Compile Include="Models\User.cs">
       <DependentUpon>MyModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\UserLogin.cs" />
+    <Compile Include="ViewModels\UserLogin.cs" />
+    <Compile Include="SqlSecurityManager.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="ViewModels\CustomerBaseViewModel.cs" />
     <Compile Include="ProductAdminDetails.aspx.cs">
       <DependentUpon>ProductAdminDetails.aspx</DependentUpon>
@@ -397,7 +432,7 @@
     <Content Include="Views\PlaceOrder\ConfirmOrder.cshtml" />
     <Content Include="Views\Order\Details.cshtml" />
     <Content Include="Views\PlaceOrder\OrderSubmitted.cshtml" />
-    <Content Include="Views\Order\_OrderInfo.cshtml" />
+    <Content Include="Views\Shared\_OrderInfo.cshtml" />
     <Content Include="Views\Shared\_AddressInfo.cshtml" />
     <Content Include="Views\Shared\_ProductInfo.cshtml" />
     <None Include="Web.Debug.config">
@@ -415,6 +450,12 @@
       <Project>{deca3c5a-fa08-4c7f-90c1-1c5ca0e69580}</Project>
       <Name>StoreFront.Data</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\ServiceReference1\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

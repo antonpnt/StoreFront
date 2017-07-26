@@ -4,10 +4,10 @@ using StoreFront.Data;
 
 namespace Week3Assignment.Controllers
 {
+    [Authorize]
     public class ShoppingCartController : Controller
     {
-        //ecommerceEntities db = new ecommerceEntities();
-        StoreFront.Data.ecommerceEntities db = new StoreFront.Data.ecommerceEntities();
+        ecommerceEntities db = new ecommerceEntities();
 
         //Shows the cart for the current user
         public ActionResult Index()

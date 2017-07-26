@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace Week3Assignment.Models
+namespace Week3Assignment.ViewModels
 {
     public class UserLogin
     {
