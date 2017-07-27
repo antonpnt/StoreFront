@@ -20,6 +20,8 @@ namespace StoreFront.ShippingAPI.Controllers
             return new string[] { "value1", "value2" };
         }
 
+        //Not requirement for assignment, added for own reference
+        //Gets all the orders in the order table
         public IEnumerable<Order> GetAllOrders()
         {
             List<Order> orders = db.Orders.ToList();
@@ -27,6 +29,7 @@ namespace StoreFront.ShippingAPI.Controllers
             return orders;
         }
 
+        //Gets orders between the start date and the end date that the user enters
         [HttpGet]
         public List<Order> GetOrders(DateTime startDate, DateTime endDate)
         {
@@ -37,6 +40,7 @@ namespace StoreFront.ShippingAPI.Controllers
 
         }
 
+        //Marks the order id that the user enters as shipped
         [HttpGet]
         public string MarkOrderShipped(int id)
         {

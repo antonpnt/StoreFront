@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StoreFront.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,6 +11,7 @@ namespace Week3Assignment.Controllers
     [Authorize]
     public class HomeController : Controller
     {
+        ecommerceEntities db = new ecommerceEntities();
         // GET: Home
         [Authorize]
         public ActionResult Index()

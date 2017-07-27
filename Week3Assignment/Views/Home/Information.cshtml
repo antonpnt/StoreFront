@@ -1,8 +1,13 @@
 ﻿@model StoreFront.Data.User
+@using StoreFront.Data;
 
 @{
+    ecommerceEntities db = new ecommerceEntities();
     ViewBag.Title = "Information";
     Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+    var username = HttpContext.Current.User.Identity.Name;
+    User user = db.Users.Where(a => a.UserName == username).FirstOrDefault();
+
 }
 
 <h2>Information</h2>
@@ -16,25 +21,14 @@
         </dt>
 
         <dd>
-            @HttpContext.Current.User.Identity.Name
+            @username
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Password)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Password)
-        </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.EmailAddress)
             
         </dt>
-
         <dd>
-            @Html.DisplayFor(model => model.EmailAddress)
-            
+            @user.EmailAddress
         </dd>
 
     </dl>

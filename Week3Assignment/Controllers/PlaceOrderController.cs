@@ -56,7 +56,7 @@ namespace Week3Assignment.Controllers
             newOrder.UserID = userID;
             newOrder.OrderDate = System.DateTime.Now;
             newOrder.Total = total;
-            newOrder.Status = db.Status.Where(a => a.StatusID == 457).FirstOrDefault();
+            newOrder.Status.StatusID = 457;
             newOrder.DateCreated = System.DateTime.Today;
             newOrder.CreatedBy = user.UserName;
             newOrder.AddressID = id;
@@ -78,7 +78,6 @@ namespace Week3Assignment.Controllers
             }
 
             return RedirectToAction("ConfirmOrder", "PlaceOrder", new { addID = id });
-
 
         }
 
