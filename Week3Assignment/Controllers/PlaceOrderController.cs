@@ -56,7 +56,7 @@ namespace Week3Assignment.Controllers
             newOrder.UserID = userID;
             newOrder.OrderDate = System.DateTime.Now;
             newOrder.Total = total;
-            newOrder.Status.StatusID = 457;
+            newOrder.StatusID = 457;
             newOrder.DateCreated = System.DateTime.Today;
             newOrder.CreatedBy = user.UserName;
             newOrder.AddressID = id;
@@ -123,7 +123,7 @@ namespace Week3Assignment.Controllers
 
             address.UserID = userID;
             address.DateCreated = System.DateTime.Now;
-            order.AddressID = address.AddressID;
+            address.Address1 = address.Address1;
             db.Addresses.Add(address);
             db.SaveChanges();
 

@@ -31,10 +31,8 @@ namespace Week3Assignment.Controllers
             var list = db.OrderProducts.Where(a => a.OrderID == orderID).ToList();
             return PartialView("~/Views/Shared/_ProductInfo.cshtml", list);
         }
-
-
+        
         //Removes a product from an order
-        //Does not work
         [HttpPost]
         public ActionResult RemoveFromOrder(int prodID)
         {
@@ -46,7 +44,6 @@ namespace Week3Assignment.Controllers
         }
 
         //Allows the user to enter a new quantity of a certain product 
-        //Does not work
         [HttpPost]
         public ActionResult UpdateOrder(int prodID, int updatedQuantity)
         {
