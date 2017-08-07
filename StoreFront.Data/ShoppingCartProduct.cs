@@ -25,6 +25,5 @@ namespace StoreFront.Data
     
         public virtual Product Product { get; set; }
         public virtual ShoppingCart ShoppingCart { get; set; }
-
     }
 }

@@ -11,8 +11,7 @@ namespace StoreFront.Data
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class Address
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -28,7 +27,6 @@ namespace StoreFront.Data
         public string Address3 { get; set; }
         public string City { get; set; }
         public Nullable<int> StateID { get; set; }
-        [Display(Name = "Zip Code")]
         public string ZipCode { get; set; }
         public Nullable<bool> IsBilling { get; set; }
         public Nullable<bool> IsShipping { get; set; }
@@ -41,7 +39,5 @@ namespace StoreFront.Data
         public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }
-
-
     }
 }

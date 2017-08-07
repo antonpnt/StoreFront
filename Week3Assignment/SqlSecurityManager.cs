@@ -39,9 +39,9 @@ namespace Week3Assignment
         {
             User user = db.Users.Where(a => a.UserName == username).FirstOrDefault();
 
-            if(user.IsAdmin == true)
+            if(user != null)
             {
-                return true;
+                return (bool)user.IsAdmin;
             }
 
             return false;

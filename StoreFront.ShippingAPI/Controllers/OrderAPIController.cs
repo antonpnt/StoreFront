@@ -24,7 +24,7 @@ namespace StoreFront.ShippingAPI.Controllers
         //Gets all the orders in the order table
         public IEnumerable<Order> GetAllOrders()
         {
-            List<Order> orders = db.Orders.ToList();
+            List<Order> orders = repos.GetAllOrders();
 
             return orders;
         }
@@ -34,7 +34,7 @@ namespace StoreFront.ShippingAPI.Controllers
         public List<Order> GetOrders(DateTime startDate, DateTime endDate)
         {
 
-            List<Order> orders = db.Orders.Where(a => a.OrderDate >= startDate && a.OrderDate <= endDate).ToList();
+            List<Order> orders = repos.GetOrdersByDate(startDate, endDate);
 
             return orders;
 
@@ -44,13 +44,9 @@ namespace StoreFront.ShippingAPI.Controllers
         [HttpGet]
         public string MarkOrderShipped(int id)
         {
-            //Gets order using GetOrder() method from order repository
-            var order = repos.GetOrder(id);
-
-            var status = order.Status;
-            status = db.Status.Where(a => a.StatusID == 459).FirstOrDefault();
-
-            return "Order " + order.OrderID + " is marked as shipped";
+            var order = repos.MarkOrderAsShipped(id);
+            
+            return order;
         }
 
 
